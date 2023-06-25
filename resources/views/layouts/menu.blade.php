@@ -33,9 +33,40 @@
         </a>
     @endcan
 
+    @can('ver-paciente')
+        <a class="nav-link" href="/contratos">
+            <i class=" fas fa-blog"></i><span>Contratos</span>
+        </a>
+    @endcan
+
+    @can('ver-categoria')
+        <a class="nav-link" href="/categorias">
+            <i class=" fas fa-blog"></i><span>Categoria</span>
+        </a>
+    @endcan
+    @can('ver-producto')
+        <a class="nav-link" href="/productos">
+            <i class=" fas fa-blog"></i><span>Producto</span>
+        </a>
+    @endcan
+    @can('ver-venta')
+        <a class="nav-link" href="/ventas">
+            <i class=" fas fa-blog"></i><span>Venta</span>
+        </a>
+    @endcan
+    @can('ver-ingreso')
+        <a class="nav-link" href="/ingresos">
+            <i class=" fas fa-blog"></i><span>Ingreso</span>
+        </a>
+    @endcan
+    <a class="nav-link" href="/inventarios">
+            <i class=" fas fa-blog"></i><span>Inventario</span>
+        </a>
 
 
-    
+
+
+
 </li>
 
 
@@ -43,7 +74,7 @@
     <a data-toggle="dropdown">
         <i class=" fas fa-solid fa-palette"></i><span>Estilo</span>
     </a>
-    
+
     <div class="dropdown-menu dropdown-menu-right">
         <div class="dropdown-title">
             Estilo de Pantalla </div>

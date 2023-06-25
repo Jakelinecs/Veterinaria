@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-//agregamos 
+//agregamos
 use App\Models\Blog;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +20,7 @@ class BlogController extends Controller
         $this->middleware('permission:borrar-blog', ['only'=>['destroy']]);
     }
 
- 
+
     /**
      * Display a listing of the resource.
      *
@@ -59,7 +59,7 @@ class BlogController extends Controller
 
         Blog::create($request->all());
 
-        
+
         return redirect()->route('blogs.index');
     }
 
@@ -102,7 +102,7 @@ class BlogController extends Controller
 
         $blog->update($request->all());
 
-        
+
         return redirect()->route('blogs.index');
     }
 
@@ -117,7 +117,58 @@ class BlogController extends Controller
         //
         Blog::delete();
 
-        
+
         return redirect()->route('blogs.index');
+    }
+
+
+
+    ////recursos para la api
+
+    public function index_api()
+    {
+        $blogs = Blog::all();
+
+        return response()->json($blogs);
+    }
+
+    public function show_api($id)
+    {
+        $blogs = Blog::findOrFail($id);
+
+        return response()->json($blogs);
+    }
+
+ public function store_api(Request $request)
+    {
+        $validatedData = $request->validate([
+            'titulo' => 'required',
+            'contenido' => 'required',
+        ]);
+
+        $post = Blog::create($validatedData);
+
+        return response()->json($post, 201);
+    }
+
+    public function update_api(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'titulo' => 'required',
+            'contenido' => 'required',
+        ]);
+
+        $post = Blog::findOrFail($id);
+        $post->update($validatedData);
+
+        return response()->json($post, 200);
+    }
+
+    public function destroy_api($id)
+    {
+        $post = Blog::findOrFail($id);
+        $post->delete();
+
+        return response()->json(null, 204);
     }
 }

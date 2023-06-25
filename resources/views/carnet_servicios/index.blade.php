@@ -13,8 +13,8 @@
                         @can('crear-paciente')
                             <a class="btn btn-warning" href="{{ route('carnet_servicio.create') }}"> Nuevo </a>
                         @endcan
-                        {!! Form::open(array('route'=>'carnet_servicios.ver', 'method'=>'POST', 'enctype'=>'multipart/form-data')) !!}
 
+                            {!! Form::open(array('route'=>'carnet_servicios.ver', 'method'=>'POST', 'enctype'=>'multipart/form-data')) !!}
                             <table id="data-table" class = "table table-striped mt-2">
                                 <thead >
                                     <th> ID</th>
@@ -54,11 +54,7 @@
 
                             {!! Form::close() !!}
 
-
                         </div>
-
-
-
 
                     </div>
                 </div>

@@ -20,7 +20,7 @@ class SeederTablaPermisos extends Seeder
     {
         //
         $permisos = [
-            
+
          //tabla de roles
              'ver-rol',
              'crear-rol',
@@ -46,13 +46,37 @@ class SeederTablaPermisos extends Seeder
             'crear-paciente',
             'editar-paciente',
             'borrar-paciente',
+         //tabla de producto
+            'ver-producto',
+            'crear-producto',
+            'editar-producto',
+            'borrar-producto',
+         //tabla de ingreso
+            'ver-ingreso',
+            'crear-ingreso',
+            'editar-ingreso',
+            'borrar-ingreso',
+         //tabla de categoria
+            'ver-categoria',
+            'crear-categoria',
+            'editar-categoria',
+            'borrar-categoria',
+         //tabla de contrato
+            'ver-contrato',
+            'crear-contrato',
+            'editar-contrato',
+            'borrar-contrato',
 ];
- 
-  
+
+
          foreach($permisos as $permiso){
-             
+            $existe = Permission::where('name', $permiso)->first();
+
+            if (!$existe) {
              Permission::create(['name'=>$permiso]);
+            }
+
          }
- 
+
      }
 }

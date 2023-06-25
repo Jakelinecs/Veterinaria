@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\BlogController;
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,6 +16,13 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('/blogs', [BlogController::class, 'index_api']);
+Route::get('/blogs/{id}', [BlogController::class, 'show_api']);
+Route::post('/blogs', [BlogController::class, 'store_api']);
+Route::put('/blogs/{id}', [BlogController::class, 'update_api']);
+Route::delete('/blogs/{id}', [BlogController::class, 'destroy_api']);
+
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 
 //
-//agregamos los controladores 
+//agregamos los controladores
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\UsuarioController;
@@ -12,6 +12,16 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\CarnetServicioController;
+use App\Http\Controllers\ContratoController;
+
+
+
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\VentaController;
+use App\Http\Controllers\IngresoController;
+use App\Http\Controllers\InventarioController;
+
 
 
 /*
@@ -35,7 +45,7 @@ Auth::routes();
 
 Route::group(['middleware'=> ['auth']], function(){
 
-    
+
 
 
     Route:: resource( 'roles', RolController::class);
@@ -44,8 +54,17 @@ Route::group(['middleware'=> ['auth']], function(){
     Route:: resource( 'personas', PersonaController::class);
     Route:: resource( 'pacientes', PacienteController::class);
     Route:: resource( 'carnet_servicios', CarnetServicioController::class);
-   
-   
+
+
+
+    Route:: resource( 'contratos', ContratoController::class);
+    Route:: resource( 'categorias', CategoriaController::class);
+    Route:: resource( 'productos', ProductoController::class);
+    Route:: resource( 'ingresos', IngresoController::class);
+    Route:: resource( 'inventarios', InventarioController::class);
+
+
+
     Route::get('carnet/ver',  [UsuarioController::class, 'ver'])->name('ver');
 
 
