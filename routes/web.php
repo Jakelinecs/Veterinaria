@@ -18,9 +18,12 @@ use App\Http\Controllers\ContratoController;
 
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\ActivoController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\IngresoController;
 use App\Http\Controllers\InventarioController;
+use App\Http\Controllers\TipoServicioController;
+use App\Http\Controllers\ServicioController;
 
 
 
@@ -51,17 +54,23 @@ Route::group(['middleware'=> ['auth']], function(){
     Route:: resource( 'roles', RolController::class);
     Route:: resource( 'usuarios', UsuarioController::class);
     Route:: resource( 'blogs', BlogController::class);
+    Route:: resource( 'contratos', ContratoController::class);
     Route:: resource( 'personas', PersonaController::class);
     Route:: resource( 'pacientes', PacienteController::class);
     Route:: resource( 'carnet_servicios', CarnetServicioController::class);
 
 
 
-    Route:: resource( 'contratos', ContratoController::class);
     Route:: resource( 'categorias', CategoriaController::class);
     Route:: resource( 'productos', ProductoController::class);
+    Route:: resource( 'activos', ActivoController::class);
     Route:: resource( 'ingresos', IngresoController::class);
     Route:: resource( 'inventarios', InventarioController::class);
+
+
+
+    Route:: resource( 'tipo_servicios', TipoServicioController::class);
+    Route:: resource( 'servicios', ServicioController::class);
 
 
 

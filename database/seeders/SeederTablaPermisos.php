@@ -66,6 +66,26 @@ class SeederTablaPermisos extends Seeder
             'crear-contrato',
             'editar-contrato',
             'borrar-contrato',
+         //tabla de activo
+            'ver-activo',
+            'crear-activo',
+            'editar-activo',
+            'borrar-activo',
+         //tabla de INVENTARIO
+            'ver-inventario',
+            'crear-inventario',
+            'editar-inventario',
+            'borrar-inventario',
+         //tabla de tipo_servicio
+            'ver-tipo_servicio',
+            'crear-tipo_servicio',
+            'editar-tipo_servicio',
+            'borrar-tipo_servicio',
+         //tabla de servicio
+            'ver-servicio',
+            'crear-servicio',
+            'editar-servicio',
+            'borrar-servicio',
 ];
 
 

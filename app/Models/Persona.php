@@ -16,4 +16,10 @@ class Persona extends Model
         'celular',
         'direccion',
     ];
+
+
+    public function contratos()
+    {
+        return $this->hasMany(Contrato::class, 'idpersonal');
+    }
 }

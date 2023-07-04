@@ -49,6 +49,11 @@
             <i class=" fas fa-blog"></i><span>Producto</span>
         </a>
     @endcan
+    @can('ver-activo')
+        <a class="nav-link" href="/activos">
+            <i class=" fas fa-blog"></i><span>Activo</span>
+        </a>
+    @endcan
     @can('ver-venta')
         <a class="nav-link" href="/ventas">
             <i class=" fas fa-blog"></i><span>Venta</span>
@@ -60,8 +65,18 @@
         </a>
     @endcan
     <a class="nav-link" href="/inventarios">
-            <i class=" fas fa-blog"></i><span>Inventario</span>
+        <i class=" fas fa-blog"></i><span>Inventario</span>
+    </a>
+    @can('ver-tipo_servicio')
+        <a class="nav-link" href="/tipo_servicios">
+            <i class=" fas fa-blog"></i><span>Tipo de Servicios </span>
         </a>
+    @endcan
+    @can('ver-servicio')
+        <a class="nav-link" href="/servicios">
+            <i class=" fas fa-blog"></i><span>Servicios </span>
+        </a>
+    @endcan
 
 
 
