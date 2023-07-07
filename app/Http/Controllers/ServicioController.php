@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DetalleAtencion;
+use App\Models\AtencionClinica;
 use App\Models\Servicio;
+use App\Models\DetalleServicio;
 use App\Models\TipoServicio;
 use App\Models\Contrato;
+use App\Models\Producto;
 use App\Models\Persona;
 use App\Models\Paciente;
 use Illuminate\Http\Request;
@@ -68,66 +72,98 @@ class ServicioController extends Controller
      */
     public function store(Request $request)
     {
+//        return $request;
         //
         // Validar los datos de la ingreso
         $request->validate([
             'idmedico' => 'required',
-            'representante' => 'required',
+            'responsable' => 'required',
             'idpaciente' => 'required',
-            'servicios.*' => 'required',
-            'precio.*' => 'required',
-            'cantidad.*' => 'required|integer|min:1',
+            'servicios.*' => 'nullable',
+            'precio.*' => 'nullable',
+            'cantidad.*' => 'nullable',
+            'motivo' => 'nullable',
+            'atencion.*' => 'nullable',
+            'costo.*' => 'nullable',
         ]);
 
-        $request['num_comprobante'] = $request->num_comprobante ?? "000000";
-        $impuesto=0;
-        if($request->tipo_comprobante == "recibo"){
-            $impuesto = 0.15;
+
+        // Crear una nueva Servicio
+        $servicio = Servicio::create([
+            'responsable' => $request->responsable,
+            'idpaciente'=> $request->idpaciente,
+            'idmedico' => $request->idmedico,
+            'fecha'=> now() ,
+            'total' => 0, // Se actualizará más adelante
+        ]);
+//        return $servicio;
+
+        // Calcular el total del Servicio y crear los detalles de Servicio
+        $totalServicio = 0;
+        //servicios de control
+        if($request->servicio){
+
+            foreach ($request->servicio as $index => $idservicio) {
+                $subcadenas = explode(" ", $idservicio);
+                $tipo = TipoServicio::find($subcadenas[0]);
+                $producto = Producto::find($tipo->idProducto);
+                $subtotal =$request->precio[$index];
+                $totalServicio += ($subtotal );
+
+                DetalleServicio::create([
+                    'idservicio' => $servicio->id,
+                    'tipo_servicio' => 'Control',
+                    'nro_servicio' => $subcadenas[0],
+                    'costo' => $subtotal,
+                ]);
+//                return $tipo;
+                // Actualizar el stock del producto
+                $producto->stock -= 1;
+                $producto->save();
+            }
+
         }
 
+//atencion clinica
+        if($request->motivo){
 
-        // Crear una nueva ingreso
-        $ingreso = Ingreso::create([
-            'idproveedor' => $request->idproveedor,
-            'idusuario' => auth()->id(),
-            'tipo_comprobante'=> $request->tipo_comprobante,
-            'serie_comprobante'=> $request->serie_comprobante,
-            'num_comprobante'=> $request->num_comprobante,
-            'fecha'=> now() ,
-            'impuesto'=> $impuesto,
-            'total' => 0, // Se actualizará más adelante
-            'estado' => 'Pendiente',
-        ]);
-
-        // Calcular el total de la ingreso y crear los detalles de ingreso
-        $totalVenta = 0;
-        foreach ($request->productos as $index => $idProducto) {
-            $subcadenas = explode(" ", $idProducto);
-            $producto = Producto::findOrFail($subcadenas[0]);
-            $cantidad = $request->cantidad[$index];
-            $precio = $request->precio[$index];
-
-            $subtotal = $precio * $cantidad;
-            $totalVenta += ($subtotal );
-
-            DetalleIngreso::create([
-                'idingreso' => $ingreso->id,
-                'idproducto' => $subcadenas[0],
-                'cantidad' => $cantidad,
-                'precio' => $precio,
+            $detalleservicio = DetalleServicio::create([
+                'idservicio' => $servicio->id,
+                'tipo_servicio' => 'Atencion Clinica',
+                'nro_servicio' => '1',
+                'costo' => 0,
             ]);
 
-            // Actualizar el stock del producto
-            $producto->stock += $cantidad;
-            $producto->save();
+                    // Crear una nueva Servicio
+            $atencion = AtencionClinica::create([
+                'iddetalle_servicio' => $detalleservicio->id,
+                'motivo'=> $request->motivo,
+                'hr' => now() ,
+            ]);
+//            return $atencion;
+            $costo = 0 ;
+            $detalleservicio->nro_servicio = $atencion->id ;
+                        //servicios de control
+            foreach ($request->atencion as $index => $atenc) {
+                $procedimiento =$atenc;
+                $subtotal =$request->costo[$index];
+                $costo += ($subtotal );
+                $detalle = DetalleAtencion::create([
+                    'idatencion' => $atencion->id,
+                    'detalle_procedimiento' =>  $procedimiento,
+                    'costo' => $subtotal,
+                ]);
+//                return $detalle;
+            }
+            $detalleservicio->costo = $costo ;
+            $detalleservicio->save();
+            $totalServicio += ($costo);
+
         }
 
-        // Actualizar el total de la ingreso
-        $ingreso->impuesto = $totalVenta *$impuesto ;
-        // Actualizar el total de la ingreso
-        $ingreso->total = $totalVenta ;
-        $ingreso->estado ="Concluido" ;
-        $ingreso->save();
+        // Actualizar el total del Servicio
+        $servicio->total = $totalServicio ;
+        $servicio->save();
 
         return redirect()->route('servicios.index')->with('success', 'Servicio creado exitosamente.');
     }
@@ -138,25 +174,35 @@ class ServicioController extends Controller
      * @param  \App\Models\Servicio  $servicio
      * @return \Illuminate\Http\Response
      */
-    public function show(Servicio $servicio)
+    public function show($id)
     {
         //
                 //        $productos = Producto::where('stock', '>', 0)->get();
-                $ingreso = Ingreso::find($id);
+                $servicio = Servicio::find($id);
                 // Obtener el nombre del cliente
-                $proveedor = Persona::find($ingreso->idproveedor)->nombre;
-                // Obtener el nombre del usuario
-                $usuario = User::find($ingreso->idusuario)->name;
-                // Obtener los detalles de la ingreso
-                $detalles = DetalleIngreso::where('idingreso', $id)->get();
-
+                $servicio['idpaciente'] = Paciente::find($servicio->idpaciente)->nombre;
+                $servicio['idmedico'] = Persona::find($servicio->idmedico)->nombre;
+                $detalles = DetalleServicio::where('idservicio', $id)
+                                            ->where('tipo_servicio','Control')
+                                            ->get();
+                //control
                 for ($i = 0; $i < count($detalles); $i++) {
-                    $producto = Producto::find($detalles[$i]['idproducto']);
-                    $detalles[$i]['idproducto'] = $producto->nombre;
+                    $tipo = TipoServicio::find($detalles[$i]['nro_servicio']);
+                    $detalles[$i]['nro_servicio'] = $tipo->servicio;
                 }
-                $productos = Producto::all();
 
-                return view('ingresos.show', compact('ingreso', 'productos', 'proveedor','usuario', 'detalles'));
+                $detallesAtencion = DetalleServicio::where('idservicio', $id)
+                                            ->where('tipo_servicio','Atencion Clinica')
+                                            ->get('nro_servicio')[0];
+                $atencion ;
+                $det_atencion;
+//                return $detallesAtencion->nro_servicio;
+                if($detallesAtencion){
+                    $atencion = AtencionClinica::find($detallesAtencion->nro_servicio);
+                    $det_atencion = DetalleAtencion::where('idatencion', $atencion->id)->get();
+                }
+
+                return view('servicios.show', compact('servicio', 'detalles', 'detallesAtencion','atencion', 'det_atencion'));
 
 
     }
@@ -167,7 +213,7 @@ class ServicioController extends Controller
      * @param  \App\Models\Servicio  $servicio
      * @return \Illuminate\Http\Response
      */
-    public function edit(Servicio $servicio)
+    public function edit($id)
     {
         //
         $ingreso = Ingreso::findOrFail($id);
@@ -260,15 +306,32 @@ class ServicioController extends Controller
      * @param  \App\Models\Servicio  $servicio
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Servicio $servicio)
+    public function destroy($id)
     {
         //
-        $ingreso = Venta::find($id);
-        Venta::find($id)->delete();
+        $servicio = Servicio::find($id);
+        $atencion;
+        $detalles = DetalleServicio::where('idservicio', $id)->get();
+
+        for ($i = 0; $i < count($detalles); $i++) {
+            $detalle = DetalleServicio::find($detalles[$i]['id']);
+            if ( $detalle->tipo_servicio == 'Atencion Clinica'){
+                $atencion = AtencionClinica::find($detalle->nro_servicio);
+                if($atencion ){
+                    $de_atencion = DetalleAtencion::where('idatencion', $atencion->nro_servicio)->get();
+                    for ($j = 0; $j < count($de_atencion); $j++) {
+                        DetalleAtencion::find($de_atencion[$j]['id'])->delete();
+                    }
+                    AtencionClinica::find($atencion->id)->delete();
+                }
+            }
+            DetalleServicio::find( $detalle->id)->delete();
+        }
+
+        $servicio->delete();
 
 
-
-        return redirect()->route('ingresos.index');
+        return redirect()->route('servicios.index');
 
     }
 }

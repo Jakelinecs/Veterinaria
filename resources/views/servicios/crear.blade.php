@@ -67,7 +67,7 @@
 
                                     </div>
                                 </div>
-
+                                <h1>Servicios de Control</h1>
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <table class="table" id="tabla-dinamica">
                                         <thead>
@@ -89,10 +89,10 @@
                                                         </datalist>
                                                     </td>
                                                     <td>
-                                                        <input type="number" name="cantidad[]" class="form-control" value="1" min="1" required>
+                                                        <input type="number" name="cantidad[]" class="form-control" value="1" min="1" >
                                                     </td>
                                                     <td>
-                                                        <input type="number" name="precio[]" class="form-control" value="1" min="1" required>
+                                                        <input type="number" name="precio[]" class="form-control" value="0" min="1" >
                                                     </td>
                                                 </tr>
                                         </tbody>
@@ -100,6 +100,45 @@
                                 </div>
                                 <div class="d-grid gap-2 col-6 mx-aut">
                                     <button onclick="agregarFila()">Agregar Fila</button>
+                                </div>
+
+
+
+
+                                <h1>Atencion Clinica</h1>
+
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <div class="form-group">
+                                        <label for="motivo">Motivo</label>
+                                        <input type="text" id="motivo" name="motivo" class="form-control">
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <table class="table" id="tabla-dinamica-atencion">
+                                        <thead>
+                                            <tr>
+                                                <th>Procedimiento</th>
+                                                <th>Costo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr id="fila-vacia-2">
+                                                    <td>
+                                                        <input type="text" id="atencion" name="atencion[]" >
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" name="costo[]" class="form-control" value="0" min="1">
+                                                    </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="d-grid gap-2 col-6 mx-aut">
+                                    <button onclick="agregarFila2()">Agregar Fila</button>
                                 </div>
 
 
@@ -130,6 +169,23 @@
         function agregarFila() {
             var tabla = document.getElementById("tabla-dinamica");
             var filaVacia = document.getElementById("fila-vacia");
+
+            // Clonar la fila vacía
+            var nuevaFila = filaVacia.cloneNode(true);
+
+            // Limpiar los valores de los inputs en la nueva fila
+            var inputs = nuevaFila.getElementsByTagName("input");
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].value = "";
+            }
+
+            // Agregar la nueva fila al final de la tabla
+            tabla.getElementsByTagName("tbody")[0].appendChild(nuevaFila);
+        }
+
+        function agregarFila2() {
+            var tabla = document.getElementById("tabla-dinamica-atencion");
+            var filaVacia = document.getElementById("fila-vacia-2");
 
             // Clonar la fila vacía
             var nuevaFila = filaVacia.cloneNode(true);

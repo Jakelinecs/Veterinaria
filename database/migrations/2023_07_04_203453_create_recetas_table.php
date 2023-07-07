@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('recetas', function (Blueprint $table) {
             $table->id();
             $table->integer('idatencion');
-            $table->integer('numeroRecetario');
+            $table->integer('numero_recetario');
             $table->string('estado');
             $table->timestamps();
         });

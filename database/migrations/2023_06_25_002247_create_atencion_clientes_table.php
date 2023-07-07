@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('atencion_clinica', function (Blueprint $table) {
             $table->id();
-            $table->integer('iddetalleServicio');
+            $table->integer('iddetalle_servicio');
             $table->string('motivo');
             $table->string('hr');
             $table->timestamps();

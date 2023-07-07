@@ -10,44 +10,63 @@
                 <div class="col-lg-12">
                     <div class="card">
                     <div class="container">
-        <h1>Detalles de la Venta</h1>
+        <h1>Detalles del Servicio</h1>
         <hr>
 
         <div class="row">
             <div class="col-md-6">
-                <h3>Información de la Venta</h3>
-                <p><strong>ID:</strong> {{ $ingreso->id }}</p>
-                <p><strong>Usuario:</strong> {{ $usuario }}</p>
-                <p><strong>Proveedor:</strong> {{ $proveedor }}</p>
-                <p><strong>Tipo de Comprobante:</strong> {{ $ingreso->tipo_comprobante }}</p>
-                <p><strong>Número de Comprobante:</strong> {{ $ingreso->num_comprobante }}</p>
-                <p><strong>Fecha y Hora:</strong> {{ $ingreso->fecha_hora }}</p>
-                <p><strong>Impuesto:</strong> {{ $ingreso->impuesto }}</p>
-                <p><strong>Total:</strong> {{ $ingreso->total }}</p>
-                <p><strong>Estado:</strong> {{ $ingreso->estado }}</p>
+                <h3>Información del Servicio</h3>
+                <p><strong>ID:</strong> {{ $servicio->id }}</p>
+                <p><strong>Responsable:</strong> {{ $servicio->responsable }}</p>
+                <p><strong>Paciente:</strong> {{ $servicio->idpaciente }}</p>
+                <p><strong>Medico:</strong> {{ $servicio->idmedico }}</p>
+                <p><strong>Fecha y Hora:</strong> {{ $servicio->fecha }}</p>
+                <p><strong>Total:</strong> {{ $servicio->total }}</p>
             </div>
 
             <div class="col-md-6">
-                <h3>Detalles de la Venta</h3>
+                <h3>Detalles del Servicio</h3>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Producto</th>
-                            <th>Cantidad</th>
-                            <th>Precio</th>
+                            <th>Servicio</th>
+                            <th>Costo</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($detalles as $detalle)
                             <tr>
-                                <td>{{ $detalle->idproducto }}</td>
-                                <td>{{ $detalle->cantidad }}</td>
-                                <td>{{ $detalle->precio }}</td>
+                                <td>{{ $detalle->nro_servicio }}</td>
+                                <td>{{ $detalle->costo }}</td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
+
+                @if ($det_atencion)
+                    <h3>Atencion Clinica : {{ $atencion->id }}</h3>
+                    <p><strong>Motivo:</strong> {{ $atencion->motivo }}</p>                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Procedimineto</th>
+                                <th>Costo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($det_atencion as $detalleA)
+                                <tr>
+                                    <td>{{ $detalleA->detalle_procedimiento }}</td>
+                                    <td>{{ $detalleA->costo }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+
+                @endif
+
             </div>
+
+
         </div>
     </div>
                     </div>
