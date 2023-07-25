@@ -12,4 +12,9 @@
     <ul class="sidebar-menu">
         @include('layouts.menu')
     </ul>
+<!---     <ul class="sidebar-menu">
+        @include('layouts.menu')
+    </ul>
+-->
+
 </aside>

@@ -81,7 +81,6 @@ class ServicioController extends Controller
             'idpaciente' => 'required',
             'servicios.*' => 'nullable',
             'precio.*' => 'nullable',
-            'cantidad.*' => 'nullable',
             'motivo' => 'nullable',
             'atencion.*' => 'nullable',
             'costo.*' => 'nullable',
@@ -193,12 +192,11 @@ class ServicioController extends Controller
 
                 $detallesAtencion = DetalleServicio::where('idservicio', $id)
                                             ->where('tipo_servicio','Atencion Clinica')
-                                            ->get('nro_servicio')[0];
-                $atencion ;
-                $det_atencion;
-//                return $detallesAtencion->nro_servicio;
-                if($detallesAtencion){
-                    $atencion = AtencionClinica::find($detallesAtencion->nro_servicio);
+                                            ->get('nro_servicio');
+                $atencion = ([]) ;
+                $det_atencion= ([]) ;
+                if(!empty($detallesAtencion[0])){
+                    $atencion = AtencionClinica::find($detallesAtencion[0]['nro_servicio']);
                     $det_atencion = DetalleAtencion::where('idatencion', $atencion->id)->get();
                 }
 

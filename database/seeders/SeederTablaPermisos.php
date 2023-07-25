@@ -86,6 +86,11 @@ class SeederTablaPermisos extends Seeder
             'crear-servicio',
             'editar-servicio',
             'borrar-servicio',
+         //tabla de Pago
+            'ver-pago',
+            'crear-pago',
+            'editar-pago',
+            'borrar-pago',
 ];
 
 

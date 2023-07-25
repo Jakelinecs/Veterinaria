@@ -24,6 +24,7 @@ use App\Http\Controllers\IngresoController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\TipoServicioController;
 use App\Http\Controllers\ServicioController;
+use App\Http\Controllers\PagoController;
 
 
 
@@ -64,6 +65,7 @@ Route::group(['middleware'=> ['auth']], function(){
     Route:: resource( 'categorias', CategoriaController::class);
     Route:: resource( 'productos', ProductoController::class);
     Route:: resource( 'activos', ActivoController::class);
+    Route:: resource( 'ventas', VentaController::class);
     Route:: resource( 'ingresos', IngresoController::class);
     Route:: resource( 'inventarios', InventarioController::class);
 
@@ -71,6 +73,7 @@ Route::group(['middleware'=> ['auth']], function(){
 
     Route:: resource( 'tipo_servicios', TipoServicioController::class);
     Route:: resource( 'servicios', ServicioController::class);
+    Route:: resource( 'pagos', PagoController::class);
 
 
 

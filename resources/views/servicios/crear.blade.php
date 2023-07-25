@@ -3,7 +3,7 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h3 class="page__heading">Alta de Servicios</h3>
+            <h3 class="page__heading"></h3>
         </div>
         <div class="section-body">
             <div class="row">
@@ -26,7 +26,7 @@
                             <div class="row">
 
 
-                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div class="form-group">
                                         <label for="idmedico">Medico Veterinario</label>
                                         <input type="text" id="idmedico" name="idmedico" list="idmedicos" class="form-control">
@@ -39,6 +39,21 @@
 
                                     </div>
                                 </div>
+
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <label for="idpaciente">Paciente</label>
+                                        <input type="text" id="idpaciente" name="idpaciente" list="idpacientes" class="form-control">
+
+                                        <datalist id="idpacientes">
+                                            @foreach ($pacientes as $paciente)
+                                                <option value="{{ $paciente->id }}">{{ $paciente->nombre }}</option>
+                                            @endforeach
+                                        </datalist>
+
+                                    </div>
+                                </div>
+
 
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="form-group">
@@ -54,26 +69,12 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <div class="form-group">
-                                        <label for="idpaciente">Paciente</label>
-                                        <input type="text" id="idpaciente" name="idpaciente" list="idpacientes" class="form-control">
-
-                                        <datalist id="idpacientes">
-                                            @foreach ($pacientes as $paciente)
-                                                <option value="{{ $paciente->id }}">{{ $paciente->nombre }}</option>
-                                            @endforeach
-                                        </datalist>
-
-                                    </div>
-                                </div>
-                                <h1>Servicios de Control</h1>
+                                <h3>Servicios de Control</h3>
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <table class="table" id="tabla-dinamica">
                                         <thead>
                                             <tr>
                                                 <th>Servicio</th>
-                                                <th>Cantidad</th>
                                                 <th>Precio</th>
                                             </tr>
                                         </thead>
@@ -89,10 +90,7 @@
                                                         </datalist>
                                                     </td>
                                                     <td>
-                                                        <input type="number" name="cantidad[]" class="form-control" value="1" min="1" >
-                                                    </td>
-                                                    <td>
-                                                        <input type="number" name="precio[]" class="form-control" value="0" min="1" >
+                                                        <input type="number" name="precio[]" class="form-control" value="0" >
                                                     </td>
                                                 </tr>
                                         </tbody>
@@ -102,10 +100,7 @@
                                     <button onclick="agregarFila()">Agregar Fila</button>
                                 </div>
 
-
-
-
-                                <h1>Atencion Clinica</h1>
+                                <h3>Atencion Clinica</h3>
 
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="form-group">
@@ -131,7 +126,7 @@
                                                         <input type="text" id="atencion" name="atencion[]" >
                                                     </td>
                                                     <td>
-                                                        <input type="number" name="costo[]" class="form-control" value="0" min="1">
+                                                        <input type="number" name="costo[]" class="form-control" value="0" >
                                                     </td>
                                                 </tr>
                                         </tbody>

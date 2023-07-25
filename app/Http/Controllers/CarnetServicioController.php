@@ -6,6 +6,14 @@ use Illuminate\Http\Request;
 use App\Models\Paciente;
 use App\Models\Persona;
 
+
+
+use App\Models\TipoServicio;
+use App\Models\DetalleAtencion;
+use App\Models\AtencionClinica;
+use App\Models\Servicio;
+use App\Models\DetalleServicio;
+
 class CarnetServicioController extends Controller
 {
     //carnet_servicios
@@ -19,7 +27,7 @@ class CarnetServicioController extends Controller
     public function ver(  $id)
     {
         return $id;
-        $paciente = Paciente::find($id); 
+        $paciente = Paciente::find($id);
         $propietario = Persona::find($paciente->prorpietario);
        return view('carnet_servicios.index', compact('pacientes','propietario'));
      }
@@ -27,7 +35,7 @@ class CarnetServicioController extends Controller
     public function index($id)
     {
         return $id;
-        $paciente = Paciente::find($id); 
+        $paciente = Paciente::find($id);
         $propietario = Persona::find($paciente->prorpietario);
        return view('carnet_servicios.index', compact('pacientes','propietario'));
      }
@@ -50,7 +58,7 @@ class CarnetServicioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
- 
+
     public function store(Request $request)
     {
         //
@@ -68,7 +76,7 @@ class CarnetServicioController extends Controller
 
        $paciente =Paciente::create($input);
 
-           
+
         return redirect()->route('pacientes.index');
     }
 
@@ -99,9 +107,105 @@ class CarnetServicioController extends Controller
     public function edit($id)
     {
         //
-        $paciente = Paciente::find($id); 
-        $propietarios = Persona::all();
-        return view('carnet_servicios.editar', compact('paciente','propietarios'));
+        $paciente = Paciente::find($id);
+        $propietario = Persona::find($paciente->propietario);
+        $paciente['propietario'] = $propietario->nombre.' '.$propietario->app_apm;
+
+        $controles = DetalleServicio::select('detalle_servicios.*','servicios.idmedico')
+        ->leftJoin('servicios', 'detalle_servicios.idservicio', '=', 'servicios.id')
+        ->leftJoin('tipo_servicios', 'tipo_servicios.id', '=', 'detalle_servicios.nro_servicio')
+        ->where( 'detalle_servicios.tipo_servicio', '=', 'Control')
+        ->where( 'servicios.idpaciente', '=', $paciente->id)
+        ->where( 'tipo_servicios.servicio', '!=', 'Desparacitacion')
+        ->where( 'tipo_servicios.servicio', '!=', 'Vacuna Antiravica')
+        ->orderBy('detalle_servicios.created_at', 'desc')
+        ->get();
+        for ($i = 0; $i < count($controles); $i++) {
+            $persona = Persona::find($controles[$i]['idmedico']);
+            $controles[$i]['idmedico'] = $persona->nombre.' '.$persona->app_apm;
+
+
+            $tipo = TipoServicio::find($controles[$i]['nro_servicio']);
+            $controles[$i]['nro_servicio'] = $tipo->servicio;
+        }
+
+
+        $desparacitaciones = DetalleServicio::select('detalle_servicios.*','servicios.idmedico')
+        ->leftJoin('servicios', 'detalle_servicios.idservicio', '=', 'servicios.id')
+        ->leftJoin('tipo_servicios', 'tipo_servicios.id', '=', 'detalle_servicios.nro_servicio')
+        ->where( 'detalle_servicios.tipo_servicio', '=', 'Control')
+        ->where( 'servicios.idpaciente', '=', $paciente->id)
+        ->where( 'tipo_servicios.servicio', '=', 'Desparacitacion')
+        ->orderBy('detalle_servicios.created_at', 'desc')
+        ->get();
+        for ($i = 0; $i < count($desparacitaciones); $i++) {
+            $persona = Persona::find($desparacitaciones[$i]['idmedico']);
+            $desparacitaciones[$i]['idmedico'] = $persona->nombre.' '.$persona->app_apm;
+
+
+            $tipo = TipoServicio::find($desparacitaciones[$i]['nro_servicio']);
+            $desparacitaciones[$i]['nro_servicio'] = $tipo->servicio;
+        }
+
+
+        $antiravicas = DetalleServicio::select('detalle_servicios.*','servicios.idmedico')
+        ->leftJoin('servicios', 'detalle_servicios.idservicio', '=', 'servicios.id')
+        ->leftJoin('tipo_servicios', 'tipo_servicios.id', '=', 'detalle_servicios.nro_servicio')
+        ->where( 'detalle_servicios.tipo_servicio', '=', 'Control')
+        ->where( 'servicios.idpaciente', '=', $paciente->id)
+        ->where( 'tipo_servicios.servicio', '=', 'Vacuna Antiravica')
+        ->orderBy('detalle_servicios.created_at', 'desc')
+        ->get();
+
+        for ($i = 0; $i < count($antiravicas); $i++) {
+            $persona = Persona::find($antiravicas[$i]['idmedico']);
+            $antiravicas[$i]['idmedico'] = $persona->nombre.' '.$persona->app_apm;
+
+
+            $tipo = TipoServicio::find($antiravicas[$i]['nro_servicio']);
+            $antiravicas[$i]['nro_servicio'] = $tipo->servicio;
+        }
+
+
+
+
+        $reproducciones = DetalleServicio::select('detalle_servicios.*','servicios.idmedico')
+        ->leftJoin('servicios', 'detalle_servicios.idservicio', '=', 'servicios.id')
+        ->leftJoin('tipo_servicios', 'tipo_servicios.id', '=', 'detalle_servicios.nro_servicio')
+        ->where( 'detalle_servicios.tipo_servicio', '=', 'Control')
+        ->where( 'servicios.idpaciente', '=', $paciente->id)
+        ->where( 'tipo_servicios.servicio', '=', 'Reproductivo')
+        ->orderBy('detalle_servicios.created_at', 'desc')
+        ->get();
+
+        for ($i = 0; $i < count($reproducciones); $i++) {
+            $persona = Persona::find($reproducciones[$i]['idmedico']);
+            $reproducciones[$i]['idmedico'] = $persona->nombre.' '.$persona->app_apm;
+
+
+            $tipo = TipoServicio::find($reproducciones[$i]['nro_servicio']);
+            $reproducciones[$i]['nro_servicio'] = $tipo->servicio;
+        }
+
+
+        $atencions = AtencionClinica::select('atencion_clinica.*','detalle_servicios.costo','servicios.idmedico')
+        ->leftJoin('detalle_servicios', 'detalle_servicios.nro_servicio', '=', 'atencion_clinica.id')
+        ->leftJoin('servicios', 'detalle_servicios.idservicio', '=', 'servicios.id')
+        ->where( 'detalle_servicios.tipo_servicio', '=', 'Atencion Clinica')
+        ->where( 'servicios.idpaciente', '=', $paciente->id)
+        ->orderBy('atencion_clinica.hr', 'desc')
+        ->get();
+
+        for ($i = 0; $i < count($atencions); $i++) {
+            $persona = Persona::find($atencions[$i]['idmedico']);
+            $atencions[$i]['idmedico'] = $persona->nombre.' '.$persona->app_apm;
+
+        }
+
+
+        //return $desparacitaciones;
+        $detalles=DetalleAtencion::all();
+        return view('carnet_servicios.editar', compact('paciente','detalles','reproducciones','atencions','desparacitaciones','controles','antiravicas'));
     }
 
     /**
@@ -124,16 +228,16 @@ class CarnetServicioController extends Controller
            'propietario'=> 'required',
            'perfil' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
       ]);
-    
+
             $input = $request->all();
 
 
             $imageName = time().'.'.$request->perfil->extension();
-            $image='img/perfil/'.Auth::user()->id.'/paciente/'.$imageName;                  
+            $image='img/perfil/'.Auth::user()->id.'/paciente/'.$imageName;
             $request->perfil->move(public_path('img/perfil/'.Auth::user()->id.'/paciente'), $imageName);
 
             $paciente =Paciente::find($id);
-            $paciente -> update($input); 
+            $paciente -> update($input);
 
             $paciente->perfil = $image;
             $paciente->save();
