@@ -9,4 +9,6 @@ class TipoServicio extends Model
 {
     use HasFactory;
     protected $fillable = ['servicio', 'detalle', 'costo', 'idProducto'];
+
+
 }

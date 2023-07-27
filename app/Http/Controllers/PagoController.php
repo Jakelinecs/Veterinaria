@@ -136,8 +136,13 @@ class PagoController extends Controller
      * @param  \App\Models\Pago  $pago
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pago $pago)
+    public function destroy($id)
     {
         //
+        $pago = Pago::findOrFail($id);
+        $pago->estado_pago = 'Anulado';
+        $pago->save();
+
+        return redirect()->route('pagos.index');
     }
 }

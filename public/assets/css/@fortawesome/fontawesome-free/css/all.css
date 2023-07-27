@@ -615,6 +615,24 @@ readers do not read off random characters that represent icons */
 .fa-bootstrap:before {
   content: "\f836"; }
 
+
+.fa-truck-ramp-box:before {
+    content: "\f4de";}
+
+.fa-bell-concierge:before{
+    content: "\f562";}
+
+.fa-list-1-2:before {
+    content: "\f0cb";}
+
+
+.fa-books-medical:before {
+    content: "\f7e6";}
+
+.fa-circle-half-stroke:before {
+    content: "\f042"
+}
+
 .fa-border-all:before {
   content: "\f84c"; }
 

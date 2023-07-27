@@ -25,6 +25,7 @@ use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\TipoServicioController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\PagoController;
+use App\Http\Controllers\RecetaController;
 
 
 
@@ -74,6 +75,7 @@ Route::group(['middleware'=> ['auth']], function(){
     Route:: resource( 'tipo_servicios', TipoServicioController::class);
     Route:: resource( 'servicios', ServicioController::class);
     Route:: resource( 'pagos', PagoController::class);
+    Route:: resource( 'recetas', RecetaController::class);
 
 
 

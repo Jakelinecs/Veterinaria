@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('detalle_recetas', function (Blueprint $table) {
             $table->id();
-            $table->integer('idreseta');
+            $table->integer('idreceta');
             $table->string('nombre_producto');
             $table->string('indicaciones');
             $table->timestamps();

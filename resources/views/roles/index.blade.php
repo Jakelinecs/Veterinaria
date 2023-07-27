@@ -16,18 +16,22 @@
 
                             <table class = "table table-striped mt-2">
                                 <thead >
+                                    <th> Id</th>
                                     <th> Rol</th>
+                                    <th> Fecha Creacion</th>
                                     <th> Acciones</th>
                                 </thead>
                                 <tbody>
                                     @foreach ($roles as $role)
                                     <tr>
+                                        <td>{{ $role->id }}</td>
                                         <td>{{ $role->name }}</td>
+                                        <td>{{ $role->created_at }}</td>
                                         <td>
                                             @can('editar-rol')
                                                 <a class="btn btn-primary" href="{{ route('roles.edit',$role->id) }}">Editar</a>
                                             @endcan
-                                            
+
                                             @can('borrar-rol')
                                                 {!! Form::open(['method' => 'DELETE','route' => ['roles.destroy', $role->id],'style'=>'display:inline']) !!}
                                                     {!! Form::submit('borrar', ['class'=>'btn btn-danger']) !!}

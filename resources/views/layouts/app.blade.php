@@ -8,7 +8,7 @@
     <!-- Bootstrap 4.1.1 -->
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
     <!-- Ionicons -->
-    
+
     <link href="//fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
     <link href="{{ asset('assets/css/@fortawesome/fontawesome-free/css/all.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ asset('assets/css/iziToast.min.css') }}">
@@ -16,7 +16,7 @@
     <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet" type="text/css"/>
 
 @yield('page_css')
-<!-- Template CSS 
+<!-- Template CSS
     <link rel="stylesheet" href="{{ asset('web/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('web/css/components.css')}}">
     -->
@@ -44,8 +44,29 @@
 
     @endif
     @if(Auth::user()->estilo == 'white')
-        <link rel="stylesheet" href="{{ asset('web/css/white/style.css') }}">
-        <link rel="stylesheet" href="{{ asset('web/css/white/components.css')}}">
+
+    @php
+        // Función para verificar si es de noche o de día
+        function esDeNoche() {
+            $horaActual = date('H');
+            return $horaActual >= 19 || $horaActual < 7; // Consideramos que es de noche si es mayor o igual a las 7 PM o menor a las 7 AM
+        }
+    @endphp
+
+        @if(esDeNoche())
+            <link rel="stylesheet" href="{{ asset('web/css/dark/style.css') }}">
+            <link rel="stylesheet" href="{{ asset('web/css/dark/components.css')}}">
+        @else
+            <link rel="stylesheet" href="{{ asset('web/css/white/style.css') }}">
+            <link rel="stylesheet" href="{{ asset('web/css/white/components.css')}}">
+        @endif
+    <script>
+        // Función para verificar si es de noche o de día
+        function esDeNoche() {
+            const horaActual = new Date().getHours();
+            return horaActual >= 19 || horaActual < 7; // Consideramos que es de noche si es mayor o igual a las 7 PM o menor a las 7 AM
+        }
+    </script>
     @endif
 
 
@@ -87,7 +108,7 @@
             @yield('content')
         </div>
         <footer class="main-footer">
-            
+
             @include('layouts.footer')
         </footer>
     </div>
@@ -128,4 +149,5 @@
         };
     }(jQuery));
 </script>
+
 </html>
