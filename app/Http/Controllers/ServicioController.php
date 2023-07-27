@@ -34,7 +34,7 @@ class ServicioController extends Controller
     {
         //
         $servicios = Servicio::paginate(10);
-
+/*
         for ($i = 0; $i < count($servicios); $i++) {
             $medico = Persona::find($servicios[$i]['idmedico']);
             $servicios[$i]['idmedico'] = $medico->nombre;
@@ -42,7 +42,7 @@ class ServicioController extends Controller
             $paciente = Paciente::find($servicios[$i]['idpaciente']);
             $servicios[$i]['idpaciente'] = $paciente->nombre;
         }
-
+*/
         return view('servicios.index', compact('servicios'));
     }
 

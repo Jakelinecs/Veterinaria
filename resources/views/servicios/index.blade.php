@@ -28,8 +28,8 @@
                                     @foreach($servicios as $servicio)
                                     <tr>
                                         <th>{{ $servicio->id }}</th>
-                                        <th>{{ $servicio->idmedico }}</th>
-                                        <th>{{ $servicio->idpaciente }}</th>
+                                        <th>{{ $servicio->persona->nombre }}</th>
+                                        <th>{{ $servicio->paciente->nombre }}</th>
                                         <th>{{ $servicio->total }}</th>
                                         <th>
                                             <a href="{{ route('servicios.show', $servicio->id) }}" class="btn btn-info">Ver</a>

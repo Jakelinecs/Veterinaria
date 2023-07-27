@@ -13,14 +13,14 @@
     <ul class="dropdown-menu">
     <li>
      @can('ver-user')
-      <a class="nav-link" href="/usuarios">
+      <a class="nav-link"  href="{{ route('usuarios.index') }}">
         <i class="fas fa-regular fa-user"></i><span>Usuarios</span>
       </a>
       @endcan
      </li>
       <li>
       @can('ver-rol')
-        <a class="nav-link" href="/roles">
+        <a class="nav-link" href="{{ route('roles.index') }}">
           <i class=" fas fa-user-lock"></i><span>Roles</span>
         </a>
       @endcan
@@ -28,28 +28,28 @@
      </ul>
     <li>
     @can('ver-persona')
-    <a class="nav-link" href="/personas">
+    <a class="nav-link" href="{{ route('personas.index') }}">
         <i class=" fas fa-regular fa-child"></i><span>Persona</span>
     </a>
     @endcan
   </li>
     <li>
     @can('ver-paciente')
-    <a class="nav-link" href="/pacientes">
+    <a class="nav-link" href="{{ route('pacientes.index') }}">
         <i class=" fas fa-solid fa-paw"></i><span>Paciente</span>
     </a>
     @endcan
     </li>
     <li>
     @can('ver-contrato')
-    <a class="nav-link" href="/contratos">
+    <a class="nav-link" href="{{ route('contratos.index') }}">
         <i class=" fas fa-solid fa-id-card"></i><span>Contratos</span>
     </a>
     @endcan
     </li>
     <li>
         @can('ver-blog')
-            <a class="nav-link" href="/blogs">
+            <a class="nav-link" href="{{ route('blogs.index') }}">
             <i class="fas fa-blog"></i><span>Blog</span>
             </a>
         @endcan
@@ -59,7 +59,7 @@
 
 <li>
   @can('ver-pago')
-    <a class="nav-link" href="/pagos">
+    <a class="nav-link" href="{{ route('pagos.index') }}">
       <i class=" fas fa-solid fa-money-bill-wave"></i><span>Pagos </span>
     </a>
   @endcan
@@ -69,7 +69,7 @@
 
 <li>
   @can('ver-tipo_servicio')
-    <a class="nav-link" href="/tipo_servicios">
+    <a class="nav-link" href="{{ route('tipo_servicios.index') }}">
       <i class=" fas fa-list-1-2"></i><span>Tipo de Servicios </span>
     </a>
   @endcan
@@ -77,7 +77,7 @@
 
 <li>
   @can('ver-servicio')
-    <a class="nav-link" href="/servicios">
+    <a class="nav-link" href="{{ route('servicios.index') }}">
       <i class=" fas fa-bell-concierge"></i><span>Servicios </span>
     </a>
   @endcan
@@ -85,7 +85,7 @@
 
 <li>
   @can('ver-receta')
-    <a class="nav-link" href="/recetas">
+    <a class="nav-link" href="{{ route('recetas.index') }}">
       <i class=" fas fa-solid fa-books-medical"></i><span>Recetas</span>
     </a>
   @endcan
@@ -97,7 +97,7 @@
     <ul class="dropdown-menu">
     <li>
   @can('ver-categoria')
-    <a class="nav-link" href="/categorias">
+    <a class="nav-link" href="{{ route('categorias.index') }}">
     <i class="fas fa-solid fa-list-ol"></i><span>Categoria</span>
     </a>
   @endcan
@@ -105,7 +105,7 @@
 
 <li>
   @can('ver-producto')
-    <a class="nav-link" href="/productos">
+    <a class="nav-link" href="{{ route('productos.index') }}">
       <i class=" fas fa-cube"></i><span>Producto</span>
     </a>
   @endcan
@@ -113,7 +113,7 @@
 
 <li>
   @can('ver-activo')
-    <a class="nav-link" href="/activos">
+    <a class="nav-link" href="{{ route('activos.index') }}">
       <i class=" fas fa-solid fa-couch"></i><span>Activo</span>
     </a>
   @endcan
@@ -122,7 +122,7 @@
 
 <li>
   @can('ver-venta')
-    <a class="nav-link" href="/ventas">
+    <a class="nav-link" href="{{ route('ventas.index') }}">
     <i class="fas fa-solid fa-cart-arrow-down"></i></i><span>Venta</span>
     </a>
   @endcan
@@ -130,7 +130,7 @@
 
 <li>
   @can('ver-ingreso')
-    <a class="nav-link" href="/ingresos">
+    <a class="nav-link" href="{{ route('ingresos.index') }}">
     <i class="fas fa-solid fa-truck-ramp-box fa-lg"></i><span>Ingreso</span>
     </a>
   @endcan
@@ -140,7 +140,7 @@
 
 
  <li>
-  <a class="nav-link" href="/inventarios">
+  <a class="nav-link" href="{{ route('inventarios.index') }}">
     <i class=" fas fa-blog"></i><span>Inventario</span>
   </a>
  </li>
