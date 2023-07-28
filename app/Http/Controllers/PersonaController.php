@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 
 
-//agregamos 
+//agregamos
 use Carbon\Carbon;
 use App\Models\Persona;
 use Spatie\Permission\Models\Permission;
@@ -17,7 +17,7 @@ class PersonaController extends Controller
 
 
 
-    
+
     function _construct(){
         $this->middleware('permission:ver-persona|crear-persona|editar-persona|borrar-persona', ['only'=>['index']]);
         $this->middleware('permission:crear-persona', ['only'=>['create','store']]);
@@ -25,7 +25,7 @@ class PersonaController extends Controller
         $this->middleware('permission:borrar-persona', ['only'=>['destroy']]);
     }
 
- 
+
     /**
      * Display a listing of the resource.
      *
@@ -38,11 +38,17 @@ class PersonaController extends Controller
      public function index()
      {
          //
-         $date = Carbon::now();
          $personas = Persona::paginate(10);
-         return view('personas.index', compact('personas','date'));
+        for ($i = 0; $i < count($personas); $i++) {
+            $nacimiento = Carbon::parse($personas[$i]['f_nacimiento']);
+            $hoy = Carbon::now();
+            $edad = $hoy->diffInYears($nacimiento);
+            $personas[$i]['f_nacimiento'] = $edad;
+        }
+
+         return view('personas.index', compact('personas'));
       }
- 
+
      /**
       * Show the form for creating a new resource.
       *
@@ -53,7 +59,7 @@ class PersonaController extends Controller
          //
          return view('personas.crear');
      }
- 
+
      /**
       * Store a newly created resource in storage.
       *
@@ -71,22 +77,22 @@ class PersonaController extends Controller
              'celular'=> 'nullable',
              'direccion'=> 'required'
          ]);
- 
+
          $input = $request->all();
-  
+
          $persona =Persona::create($input);
- 
- 
+
+
          return redirect()->route('personas.index');
      }
- 
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
+
      /**
       * Display the specified resource.
       *
@@ -97,7 +103,7 @@ class PersonaController extends Controller
      {
          //
      }
- 
+
      /**
       * Show the form for editing the specified resource.
       *
@@ -107,11 +113,11 @@ class PersonaController extends Controller
      public function edit($id)
      {
          //
-         $persona = Persona::find($id); 
- 
+         $persona = Persona::find($id);
+
          return view('personas.editar', compact('persona'));
      }
- 
+
      /**
       * Update the specified resource in storage.
       *
@@ -130,13 +136,13 @@ class PersonaController extends Controller
             'celular'=> 'nullable',
             'direccion'=> 'required'
         ]);
-     
+
              $input = $request->all();
 
              $persona =Persona::find($id);
-             $persona -> update($input); 
- 
- 
+             $persona -> update($input);
+
+
              return redirect()->route('personas.index');
      }
          /**
@@ -150,13 +156,12 @@ class PersonaController extends Controller
          //
 //         $persona = Persona::find($id);
          Persona::find($id)->delete();
- 
- 
- 
+
+
+
          return redirect()->route('personas.index');
      }
- 
- 
+
+
 
  }
- 

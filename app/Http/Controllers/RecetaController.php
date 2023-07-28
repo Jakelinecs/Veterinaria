@@ -11,6 +11,14 @@ use App\Models\DetalleReceta;
 use App\Models\AtencionClinica;
 class RecetaController extends Controller
 {
+
+    function _construct(){
+        $this->middleware('permission:ver-receta|crear-receta|editar-receta|borrar-receta', ['only'=>['index']]);
+        $this->middleware('permission:crear-receta', ['only'=>['create','store']]);
+        $this->middleware('permission:editar-receta', ['only'=>['edit','update']]);
+        $this->middleware('permission:borrar-receta', ['only'=>['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *

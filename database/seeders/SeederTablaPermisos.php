@@ -91,6 +91,11 @@ class SeederTablaPermisos extends Seeder
             'crear-pago',
             'editar-pago',
             'borrar-pago',
+         //tabla de Pago
+            'ver-receta',
+            'crear-receta',
+            'editar-receta',
+            'borrar-receta',
 ];
 
 
